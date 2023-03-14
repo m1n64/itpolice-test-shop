@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Enums\RoleCodesEnum;
+use App\Enums\RolesEnum;
 use App\Models\User;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
@@ -26,6 +26,8 @@ class GatesServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-
+        Gate::define('is_admin', function (User $user) {
+            return in_array(RolesEnum::ADMIN->value, $user->getRoleNames()->toArray());
+        });
     }
 }
